@@ -2,9 +2,13 @@
 
 通达信 `tqcenter` 跨平台远程调用方案：在一台已登录通达信的 Windows 机器上运行网关，其它电脑（Windows / macOS / Linux）用几乎相同的 Python API 取数。
 
-项目官网：  https://atorber.github.io/tq-bridge/
+项目官网：https://atorber.github.io/tq-bridge/
 
-首次启用：仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。
+```bash
+pip install tq-bridge
+```
+
+发布到 PyPI：在 GitHub 创建 Release（或手动跑 **Publish to PyPI** Action）。首次需在 PyPI 项目启用 Trusted Publisher（GitHub：`atorber/tq-bridge`，workflow：`publish-pypi.yml`，environment：`pypi`）。
 
 ## 架构
 
@@ -56,7 +60,13 @@ from tqcenter import tq
 
 ### 2. 安装依赖
 
-在仓库根目录执行：
+推荐：
+
+```bat
+pip install tq-bridge
+```
+
+或从源码安装网关依赖：
 
 ```bat
 pip install -r tq_bridge\requirements.txt
@@ -123,10 +133,11 @@ http://<windows-ip>:18787/health
 ### 1. 安装依赖
 
 ```bash
-pip install -r tqcenter_remote/requirements.txt
+pip install tq-bridge
+# 或：pip install -r tqcenter_remote/requirements.txt
 ```
 
-主要依赖：`pandas`、`websocket-client`（行情订阅需要）。
+主要依赖：`pandas`、`websocket-client`（行情订阅需要）；网关另需 FastAPI / uvicorn。
 
 ### 2. 配置网关地址
 
