@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="tq-bridge">
+  <rect width="32" height="32" rx="7" fill="#0f5c4c"/>
+  <path fill="#e8f4f0" d="M8.2 9.2h15.6v3.1H18.6v10.5h-3.4V12.3H8.2V9.2z"/>
+  <path fill="#9fd5c6" d="M7 22.2h18v2.2H7z"/>
+</svg>

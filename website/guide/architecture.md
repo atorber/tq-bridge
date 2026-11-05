@@ -1,6 +1,8 @@
 # 架构
 
-<ArchFlow />
+<ClientOnly>
+  <ArchFlow />
+</ClientOnly>
 
 ## 组件说明
 

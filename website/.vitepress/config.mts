@@ -9,6 +9,9 @@ export default defineConfig({
   lastUpdated: true,
   head: [
     ['meta', { name: 'theme-color', content: '#0f5c4c' }],
+    ['link', { rel: 'icon', href: '/tq-bridge/favicon.svg', type: 'image/svg+xml' }],
+    ['link', { rel: 'shortcut icon', href: '/tq-bridge/favicon.svg' }],
+    ['link', { rel: 'apple-touch-icon', href: '/tq-bridge/favicon.svg' }],
     [
       'link',
       {
@@ -33,7 +36,7 @@ export default defineConfig({
     ],
   ],
   themeConfig: {
-    logo: undefined,
+    logo: '/favicon.svg',
     siteTitle: 'tq-bridge',
     nav: [
       { text: '首页', link: '/' },
