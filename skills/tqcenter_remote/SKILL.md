@@ -13,6 +13,12 @@ description: >-
 
 **与仓库无关**：只要 `tq_bridge` 网关在线且本机装了 SDK、配好网关地址，任意工作目录都可使用本 skill（不必打开或进入源码仓库）。
 
+## 一句话安装
+
+```bash
+npx skills add atorber/tq-bridge --skill tqcenter_remote -a '*' -g -y
+```
+
 ## 前置条件
 
 1. Windows 已登录通达信，并运行 `python -m tq_bridge`（或 `tq-bridge`）

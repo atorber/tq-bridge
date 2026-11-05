@@ -1,16 +1,6 @@
 # 架构
 
-```text
-业务脚本
-  from tqcenter_remote import tq
-        │
-        │  HTTP /rpc  +  WebSocket /ws/sub
-        ▼
-Windows: tq_bridge (FastAPI)
-        │
-        ▼
-本机 tqcenter.tq  →  TPythClient.dll  →  通达信客户端
-```
+<ArchFlow />
 
 ## 组件说明
 

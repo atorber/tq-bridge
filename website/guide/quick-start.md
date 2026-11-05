@@ -46,3 +46,13 @@ python tdxdata_test_remote.py
 ## 3. 证券代码
 
 需带市场后缀，例如 `600519.SH`、`000001.SZ`、`688318.SH`。
+
+## 4. （可选）Agent Skill
+
+一句话安装到全部 Agent 后，用自然语言调远程接口：
+
+```bash
+npx skills add atorber/tq-bridge --skill tqcenter_remote -a '*' -g -y
+```
+
+详见 [Agent Skill](./skill)。

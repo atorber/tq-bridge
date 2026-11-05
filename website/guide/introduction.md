@@ -35,4 +35,5 @@ pip install tq-bridge
 
 - [架构](./architecture) — 看清调用链路
 - [快速开始](./quick-start) — 最短路径跑通
+- [Agent Skill](./skill) — 一句话安装到全部 Agent，自然语言取数
 - [Windows 网关](./gateway) / [远程客户端](./client) — 分端配置

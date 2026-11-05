@@ -22,4 +22,6 @@ features:
     details: FastAPI 提供 /rpc 与 /ws/sub，把本机 TPythClient.dll 能力暴露到局域网或专线。
   - title: 文档齐全
     details: 网关部署、客户端配置、Python SDK 与 HTTP API 分章节可查，左侧导航随时跳转。
+  - title: Agent Skill
+    details: 一句话安装到全部 Agent，自然语言即可远程查 K 线、快照、财务与板块。
 ---

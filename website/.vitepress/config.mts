@@ -52,6 +52,7 @@ export default defineConfig({
             { text: '介绍', link: '/guide/introduction' },
             { text: '架构', link: '/guide/architecture' },
             { text: '快速开始', link: '/guide/quick-start' },
+            { text: 'Agent Skill', link: '/guide/skill' },
           ],
         },
         {

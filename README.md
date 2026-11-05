@@ -9,6 +9,20 @@
 pip install tq-bridge
 ```
 
+### Agent Skill（一句话安装）
+
+让各类 Agent（Cursor / Claude Code / Codex 等）直接调用远程 `tqcenter` 全套接口：
+
+```bash
+npx skills add atorber/tq-bridge --skill tqcenter_remote -a '*' -g -y
+```
+
+- `-a '*'`：安装到本机已支持的全部 Agent
+- `-g`：用户级全局（各 Agent 用户目录）；去掉则装到当前项目
+- `-y`：跳过确认
+
+安装后还需：本机 `pip install tq-bridge`、配置 `TQ_BRIDGE_URL`（或 `tq_bridge.json`），且 Windows 网关在线。用法见官网 [Agent Skill](https://atorber.github.io/tq-bridge/guide/skill) 或仓库 `skills/tqcenter_remote/SKILL.md`。
+
 发布到 PyPI：在 GitHub 创建 Release（或手动跑 **Publish to PyPI** Action）。首次需在 PyPI 项目启用 Trusted Publisher（GitHub：`atorber/tq-bridge`，workflow：`publish-pypi.yml`，environment：`pypi`）。
 
 ## 架构
@@ -327,6 +341,7 @@ tqconst.STOCK_BUY, tqconst.STOCK_SELL, tqconst.PRICE_SJ
 ├── tqserver.py             # 云端数据封装（独立）
 ├── tdxdata_test.py         # 本机示例
 ├── tdxdata_test_remote.py  # 远程冒烟
+├── skills/tqcenter_remote/ # Agent Skill（全 Agent 可用）
 └── website/                # VitePress 官网（首页 + docs）
 ```
 
