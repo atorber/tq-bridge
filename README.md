@@ -2,7 +2,8 @@
 
 通达信 `tqcenter` 跨平台远程调用方案：在一台已登录通达信的 Windows 机器上运行网关，其它电脑（Windows / macOS / Linux）用几乎相同的 Python API 取数。
 
-项目官网：https://atorber.github.io/tq-bridge/
+项目官网（VitePress）：https://atorber.github.io/tq-bridge/  
+本地预览文档：`cd website && npm install && npm run docs:dev`
 
 ```bash
 pip install tq-bridge
@@ -325,7 +326,8 @@ tqconst.STOCK_BUY, tqconst.STOCK_SELL, tqconst.PRICE_SJ
 ├── tqcenter.py             # 官方本机 SDK（参考）
 ├── tqserver.py             # 云端数据封装（独立）
 ├── tdxdata_test.py         # 本机示例
-└── tdxdata_test_remote.py  # 远程冒烟
+├── tdxdata_test_remote.py  # 远程冒烟
+└── website/                # VitePress 官网（首页 + docs）
 ```
 
 更细的网关说明也可看 [tq_bridge/README.md](tq_bridge/README.md)。

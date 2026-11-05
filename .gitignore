@@ -10,3 +10,8 @@ tq_bridge.json
 dist/
 build/
 _push_via_api.py
+
+# VitePress / Node
+website/node_modules/
+website/.vitepress/dist/
+website/.vitepress/cache/
