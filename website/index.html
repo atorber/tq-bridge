@@ -15,7 +15,9 @@
     <a class="topbar-brand" href="#top">tq-bridge</a>
     <nav class="topbar-nav" aria-label="主导航">
       <a href="#flow">架构</a>
+      <a href="#capabilities">能力</a>
       <a href="#start">开始</a>
+      <a href="#api">API</a>
       <a href="https://github.com/atorber/tq-bridge" target="_blank" rel="noreferrer">GitHub</a>
     </nav>
   </header>
@@ -25,10 +27,10 @@
       <div class="hero-copy">
         <p class="brand">tq-bridge</p>
         <h1>同一套 tqcenter API，跨机器调用通达信</h1>
-        <p class="lede">在一台已登录的 Windows 通达信上运行网关，macOS / Linux / Windows 客户端只改包名即可取数。</p>
+        <p class="lede">在一台已登录的 Windows 通达信上运行网关，macOS / Linux / Windows 客户端只改包名即可取数、订阅行情与转发文件。</p>
         <div class="cta">
           <a class="btn btn-primary" href="https://github.com/atorber/tq-bridge" target="_blank" rel="noreferrer">查看仓库</a>
-          <a class="btn btn-ghost" href="#start">快速开始</a>
+          <a class="btn btn-ghost" href="#api">API 参考</a>
         </div>
       </div>
       <div class="hero-visual" aria-hidden="true">
@@ -75,28 +77,61 @@
         <ol class="flow">
           <li>
             <strong>客户端</strong>
-            <span><code>from tqcenter_remote import tq</code></span>
+            <span><code>from tqcenter_remote import tq, tqconst</code> — 任意平台</span>
           </li>
           <li>
             <strong>网关</strong>
-            <span>HTTP /rpc · WebSocket /ws/sub</span>
+            <span>HTTP <code>/rpc</code> · WebSocket <code>/ws/sub</code> · 可选 Bearer Token</span>
           </li>
           <li>
             <strong>通达信</strong>
-            <span>TPythClient.dll → 已登录客户端</span>
+            <span><code>TPythClient.dll</code> → 已登录客户端本地取数</span>
           </li>
         </ol>
       </div>
     </section>
 
-    <section class="section section-alt" id="start">
+    <section class="section section-alt" id="capabilities">
+      <div class="section-inner">
+        <h2>覆盖日常取数场景</h2>
+        <p class="section-lede">远程 SDK 与官方 <code>tqcenter</code> 方法对齐，网关按白名单转发。</p>
+        <ul class="capability-list">
+          <li>
+            <strong>行情与 K 线</strong>
+            <span>快照、复权 K 线、除权因子、涨跌停与盘口量价</span>
+          </li>
+          <li>
+            <strong>标的与板块</strong>
+            <span>股票列表、板块树、成分股、代码联想匹配</span>
+          </li>
+          <li>
+            <strong>财务与日历</strong>
+            <span>财报、交易日历、IPO / 可转债 / 股本等扩展信息</span>
+          </li>
+          <li>
+            <strong>实时订阅</strong>
+            <span><code>subscribe_hq</code> 经 WebSocket 推送，回调留在客户端本机</span>
+          </li>
+          <li>
+            <strong>文件与展示</strong>
+            <span>上传 <code>send_file</code>、下载转发、<code>print_to_tdx</code> 落盘到网关机</span>
+          </li>
+          <li>
+            <strong>交易（可选）</strong>
+            <span>默认开放；生产建议 <code>TQ_BRIDGE_ALLOW_TRADE=0</code> 关闭下单撤单</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="start">
       <div class="section-inner">
         <h2>改一个包名就能跑</h2>
         <p class="section-lede">Windows 网关常开后，任意平台脚本保持官方调用习惯。</p>
         <div class="code-panel" role="region" aria-label="示例代码">
           <div class="code-toolbar">
-            <span>Python</span>
-            <button type="button" class="copy-btn" data-copy>复制</button>
+            <span>Python · tqcenter_remote</span>
+            <button type="button" class="copy-btn" data-copy="sample-code">复制</button>
           </div>
           <pre><code id="sample-code"># from tqcenter import tq, tqconst
 from tqcenter_remote import tq, tqconst
@@ -113,9 +148,215 @@ tq.close()</code></pre>
         </div>
         <div class="steps">
           <p><strong>1.</strong> Windows：登录通达信，执行 <code>python -m tq_bridge</code></p>
-          <p><strong>2.</strong> 客户端：配置 <code>TQ_BRIDGE_URL</code> / Token，或放置 <code>tq_bridge.json</code></p>
+          <p><strong>2.</strong> 客户端：设置 <code>TQ_BRIDGE_URL</code> / Token，或放置 <code>tq_bridge.json</code></p>
           <p><strong>3.</strong> 运行策略：方法名与参数与官方 tqcenter 一致</p>
         </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="api">
+      <div class="section-inner">
+        <h2>API 参考</h2>
+        <p class="section-lede">业务侧优先使用 Python SDK；需要自建客户端时再对接网关 HTTP / WebSocket。</p>
+
+        <h3 class="api-h3">Python SDK · <code>tqcenter_remote.tq</code></h3>
+        <p class="api-note">签名与官方 <code>tqcenter.tq</code> 对齐。完整冒烟见仓库 <code>tdxdata_test_remote.py</code>。</p>
+
+        <div class="api-group">
+          <h4>生命周期</h4>
+          <dl class="api-table">
+            <div>
+              <dt><code>initialize(path="", dll_path="")</code></dt>
+              <dd>读取网关配置并检查 <code>/health</code>；签名兼容官方，不在本机加载 DLL</dd>
+            </div>
+            <div>
+              <dt><code>close()</code></dt>
+              <dd>断开 WebSocket，并通知网关注销当前 <code>client_id</code></dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="api-group">
+          <h4>行情 / K 线</h4>
+          <dl class="api-table">
+            <div>
+              <dt><code>get_market_data(...)</code></dt>
+              <dd>历史 K 线；常用 <code>period</code>：<code>1m</code> / <code>5m</code> / <code>1d</code> / <code>1w</code>；复权 <code>none</code> / <code>front</code> / <code>back</code></dd>
+            </div>
+            <div>
+              <dt><code>get_market_snapshot(...)</code></dt>
+              <dd>实时或缓存快照</dd>
+            </div>
+            <div>
+              <dt><code>get_stock_info(...)</code> · <code>get_divid_factors(...)</code></dt>
+              <dd>标的基础信息、除权因子</dd>
+            </div>
+            <div>
+              <dt><code>refresh_cache(...)</code> · <code>refresh_kline(...)</code></dt>
+              <dd>强制刷新缓存 / K 线</dd>
+            </div>
+            <div>
+              <dt><code>get_pricevol(...)</code> · <code>get_zdt_data(...)</code> · <code>get_exday_data(...)</code></dt>
+              <dd>量价、涨跌停、扩展日频数据</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="api-group">
+          <h4>板块 / 列表 / 日历</h4>
+          <dl class="api-table">
+            <div>
+              <dt><code>get_sector_list(list_type=0)</code></dt>
+              <dd>板块列表</dd>
+            </div>
+            <div>
+              <dt><code>get_stock_list_in_sector(...)</code> · <code>get_user_sector()</code></dt>
+              <dd>板块成分、用户板块</dd>
+            </div>
+            <div>
+              <dt><code>get_stock_list(...)</code> · <code>get_match_stkinfo(...)</code></dt>
+              <dd>全市场列表、关键词匹配</dd>
+            </div>
+            <div>
+              <dt><code>get_trading_calendar(...)</code> · <code>get_trading_dates(...)</code></dt>
+              <dd>交易日历与交易日序列</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="api-group">
+          <h4>财务 / 扩展信息</h4>
+          <dl class="api-table">
+            <div>
+              <dt><code>get_financial_data(...)</code> · <code>get_financial_data_by_date(...)</code></dt>
+              <dd>财务报表及按日切片</dd>
+            </div>
+            <div>
+              <dt><code>get_gpjy_value*</code> · <code>get_bkjy_value*</code> · <code>get_scjy_value*</code></dt>
+              <dd>股票 / 板块 / 市场经营类指标（含 by_date 变体）</dd>
+            </div>
+            <div>
+              <dt><code>get_ipo_info</code> · <code>get_kzz_info</code> · <code>get_gb_info*</code> · <code>get_more_info</code></dt>
+              <dd>IPO、可转债、股本等扩展字段</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="api-group">
+          <h4>订阅</h4>
+          <dl class="api-table">
+            <div>
+              <dt><code>subscribe_hq(stock_list, callback)</code></dt>
+              <dd>订阅推送；<code>callback</code> 仅在客户端执行，经 <code>/ws/sub</code> 收包</dd>
+            </div>
+            <div>
+              <dt><code>unsubscribe_hq(...)</code> · <code>get_subscribe_hq_stock_list()</code></dt>
+              <dd>取消订阅、查询当前订阅列表</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="api-group">
+          <h4>文件 / 交易</h4>
+          <dl class="api-table">
+            <div>
+              <dt><code>send_file(path)</code></dt>
+              <dd>客户端本地文件先上传到网关临时目录，再交给通达信</dd>
+            </div>
+            <div>
+              <dt><code>print_to_tdx(...)</code> · <code>download_file(...)</code></dt>
+              <dd>结果落在 <strong>Windows 通达信目录</strong>；下载经网关转发</dd>
+            </div>
+            <div>
+              <dt><code>stock_account</code> · <code>order_stock</code> · <code>cancel_order_stock</code></dt>
+              <dd>交易类；网关可用 <code>TQ_BRIDGE_ALLOW_TRADE=0</code> 禁用后两项</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="code-panel" role="region" aria-label="订阅示例">
+          <div class="code-toolbar">
+            <span>订阅行情示例</span>
+            <button type="button" class="copy-btn" data-copy="sub-code">复制</button>
+          </div>
+          <pre><code id="sub-code">from tqcenter_remote import tq
+
+tq.initialize(__file__)
+
+def on_hq(data_str: str):
+    print(data_str[:200])
+
+tq.subscribe_hq(stock_list=["688318.SH"], callback=on_hq)
+print(tq.get_subscribe_hq_stock_list())
+# ...
+tq.unsubscribe_hq(stock_list=["688318.SH"])
+tq.close()</code></pre>
+        </div>
+
+        <h3 class="api-h3">网关 HTTP / WebSocket</h3>
+        <p class="api-note">默认监听 <code>0.0.0.0:18787</code>。设置了 <code>TQ_BRIDGE_TOKEN</code> 时，HTTP 需 <code>Authorization: Bearer &lt;token&gt;</code>。</p>
+
+        <dl class="api-table api-table-http">
+          <div>
+            <dt><span class="verb get">GET</span> <code>/health</code></dt>
+            <dd>健康检查；返回 <code>ok</code> / <code>initialized</code> / <code>allow_trade</code> / 方法白名单</dd>
+          </div>
+          <div>
+            <dt><span class="verb post">POST</span> <code>/rpc</code></dt>
+            <dd>通用 RPC：<code>{"method","args","kwargs","client_id?"}</code> → <code>{"ok","result","error"}</code></dd>
+          </div>
+          <div>
+            <dt><span class="verb post">POST</span> <code>/files/upload</code></dt>
+            <dd>上传文件：<code>name</code> + <code>content_b64</code> → Windows 本地路径</dd>
+          </div>
+          <div>
+            <dt><span class="verb get">GET</span> <code>/files/download?path=</code></dt>
+            <dd>按网关本机路径下载，返回 <code>content_b64</code></dd>
+          </div>
+          <div>
+            <dt><span class="verb ws">WS</span> <code>/ws/sub?token=&amp;client_id=</code></dt>
+            <dd>行情推送通道；与 <code>subscribe_hq</code> 的 <code>client_id</code> 对应</dd>
+          </div>
+        </dl>
+
+        <div class="code-panel" role="region" aria-label="RPC 示例">
+          <div class="code-toolbar">
+            <span>POST /rpc</span>
+            <button type="button" class="copy-btn" data-copy="rpc-code">复制</button>
+          </div>
+          <pre><code id="rpc-code">curl -s http://127.0.0.1:18787/rpc \
+  -H "Authorization: Bearer your_secret" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "method": "get_market_snapshot",
+    "args": [],
+    "kwargs": {"stock_code": "688318.SH", "field_list": []}
+  }'</code></pre>
+        </div>
+
+        <h3 class="api-h3">配置项</h3>
+        <dl class="api-table">
+          <div>
+            <dt><code>TQ_BRIDGE_URL</code></dt>
+            <dd>客户端：网关根地址，如 <code>http://192.168.1.100:18787</code></dd>
+          </div>
+          <div>
+            <dt><code>TQ_BRIDGE_TOKEN</code></dt>
+            <dd>两端共享的 Bearer Token；也可写在 <code>tq_bridge.json</code></dd>
+          </div>
+          <div>
+            <dt><code>TQ_BRIDGE_HOST</code> / <code>TQ_BRIDGE_PORT</code></dt>
+            <dd>网关监听，默认 <code>0.0.0.0:18787</code></dd>
+          </div>
+          <div>
+            <dt><code>TQ_BRIDGE_ALLOW_TRADE</code></dt>
+            <dd>设为 <code>0</code> 禁用 <code>order_stock</code> / <code>cancel_order_stock</code></dd>
+          </div>
+          <div>
+            <dt><code>TQ_BRIDGE_INIT_PATH</code></dt>
+            <dd>网关调用本机 <code>tq.initialize</code> 时使用的路径</dd>
+          </div>
+        </dl>
       </div>
     </section>
   </main>

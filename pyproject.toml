@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tq-bridge"
+version = "1.0.0"
+description = "通达信 tqcenter 跨平台远程调用：Windows 网关 + 远程 SDK"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "atorber" }]
+keywords = ["tqcenter", "tdx", "tongdaxin", "bridge", "rpc"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Office/Business :: Financial :: Investment",
+]
+dependencies = [
+  "pandas>=1.5.0",
+  "websocket-client>=1.6.0",
+  "fastapi>=0.110.0",
+  "uvicorn[standard]>=0.27.0",
+  "pydantic>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://atorber.github.io/tq-bridge/"
+Repository = "https://github.com/atorber/tq-bridge"
+Issues = "https://github.com/atorber/tq-bridge/issues"
+
+[project.scripts]
+tq-bridge = "tq_bridge.server:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["tq_bridge*", "tqcenter_remote*"]
+exclude = ["website*", "tests*"]
+
+[tool.setuptools.package-data]
+tqcenter_remote = ["tq_bridge.json.example", "README.md"]
+tq_bridge = ["README.md"]
