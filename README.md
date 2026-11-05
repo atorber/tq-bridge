@@ -2,9 +2,7 @@
 
 通达信 `tqcenter` 跨平台远程调用方案：在一台已登录通达信的 Windows 机器上运行网关，其它电脑（Windows / macOS / Linux）用几乎相同的 Python API 取数。
 
-项目官网（静态页）：本地打开 [`website/index.html`](website/index.html)。  
-推送到 `main` 且改动 `website/` 时，GitHub Actions 会自动发布到 Pages：  
-https://atorber.github.io/tq-bridge/
+项目官网：  https://atorber.github.io/tq-bridge/
 
 首次启用：仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。
 
