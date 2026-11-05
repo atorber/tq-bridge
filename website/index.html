@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>tq-bridge — 通达信跨平台远程调用</title>
+  <meta name="description" content="在 Windows 通达信网关上，用几乎相同的 Python API 从 macOS / Linux / Windows 远程取数。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="topbar-brand" href="#top">tq-bridge</a>
+    <nav class="topbar-nav" aria-label="主导航">
+      <a href="#flow">架构</a>
+      <a href="#start">开始</a>
+      <a href="https://github.com/atorber/tq-bridge" target="_blank" rel="noreferrer">GitHub</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-label="首屏">
+      <div class="hero-copy">
+        <p class="brand">tq-bridge</p>
+        <h1>同一套 tqcenter API，跨机器调用通达信</h1>
+        <p class="lede">在一台已登录的 Windows 通达信上运行网关，macOS / Linux / Windows 客户端只改包名即可取数。</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="https://github.com/atorber/tq-bridge" target="_blank" rel="noreferrer">查看仓库</a>
+          <a class="btn btn-ghost" href="#start">快速开始</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <svg class="hero-chart" viewBox="0 0 1200 720" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#d7e3ea" />
+              <stop offset="55%" stop-color="#b9cdd8" />
+              <stop offset="100%" stop-color="#8eafbf" />
+            </linearGradient>
+            <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#0f5c4c" />
+              <stop offset="100%" stop-color="#1f7a64" />
+            </linearGradient>
+            <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1f7a64" stop-opacity="0.28" />
+              <stop offset="100%" stop-color="#1f7a64" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <rect width="1200" height="720" fill="url(#panel)" />
+          <g class="grid" stroke="#5f7583" stroke-opacity="0.18" stroke-width="1">
+            <path d="M0 120H1200M0 240H1200M0 360H1200M0 480H1200M0 600H1200" />
+            <path d="M150 0V720M300 0V720M450 0V720M600 0V720M750 0V720M900 0V720M1050 0V720" />
+          </g>
+          <path class="area" d="M40 520 C140 500,180 430,260 410 S420 470,520 390 S700 250,820 280 S980 360,1160 210 L1160 720 L40 720 Z" fill="url(#fill)" />
+          <path class="stroke" d="M40 520 C140 500,180 430,260 410 S420 470,520 390 S700 250,820 280 S980 360,1160 210" fill="none" stroke="url(#line)" stroke-width="4" stroke-linecap="round" />
+          <g class="bars" fill="#16353f" fill-opacity="0.22">
+            <rect x="90" y="430" width="18" height="90" />
+            <rect x="190" y="390" width="18" height="130" />
+            <rect x="340" y="360" width="18" height="160" />
+            <rect x="490" y="300" width="18" height="220" />
+            <rect x="650" y="250" width="18" height="270" />
+            <rect x="820" y="280" width="18" height="240" />
+            <rect x="980" y="220" width="18" height="300" />
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <section class="section" id="flow">
+      <div class="section-inner">
+        <h2>一条链路，两端同构</h2>
+        <p class="section-lede">业务脚本调用远程 SDK，网关在 Windows 上转成本机真实 tqcenter。</p>
+        <ol class="flow">
+          <li>
+            <strong>客户端</strong>
+            <span><code>from tqcenter_remote import tq</code></span>
+          </li>
+          <li>
+            <strong>网关</strong>
+            <span>HTTP /rpc · WebSocket /ws/sub</span>
+          </li>
+          <li>
+            <strong>通达信</strong>
+            <span>TPythClient.dll → 已登录客户端</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="start">
+      <div class="section-inner">
+        <h2>改一个包名就能跑</h2>
+        <p class="section-lede">Windows 网关常开后，任意平台脚本保持官方调用习惯。</p>
+        <div class="code-panel" role="region" aria-label="示例代码">
+          <div class="code-toolbar">
+            <span>Python</span>
+            <button type="button" class="copy-btn" data-copy>复制</button>
+          </div>
+          <pre><code id="sample-code"># from tqcenter import tq, tqconst
+from tqcenter_remote import tq, tqconst
+
+tq.initialize(__file__)
+df = tq.get_market_data(
+    stock_list=["688318.SH"],
+    count=5,
+    period="1d",
+    dividend_type="front",
+)
+print(df)
+tq.close()</code></pre>
+        </div>
+        <div class="steps">
+          <p><strong>1.</strong> Windows：登录通达信，执行 <code>python -m tq_bridge</code></p>
+          <p><strong>2.</strong> 客户端：配置 <code>TQ_BRIDGE_URL</code> / Token，或放置 <code>tq_bridge.json</code></p>
+          <p><strong>3.</strong> 运行策略：方法名与参数与官方 tqcenter 一致</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-brand">tq-bridge</p>
+      <p>开源仓库 · MIT · 官方 DLL / tqcenter 仍遵循通达信许可</p>
+      <a href="https://github.com/atorber/tq-bridge" target="_blank" rel="noreferrer">github.com/atorber/tq-bridge</a>
+    </div>
+  </footer>
+
+  <script src="./main.js"></script>
+</body>
+</html>
