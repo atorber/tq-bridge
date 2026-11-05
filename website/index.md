@@ -25,3 +25,15 @@ features:
   - title: Agent Skill
     details: 一句话安装到全部 Agent，自然语言即可远程查 K 线、快照、财务与板块。
 ---
+
+## 架构一览
+
+一条链路：任意平台脚本 → Windows 网关 → 本机通达信。
+
+<ClientOnly>
+  <ArchFlow />
+</ClientOnly>
+
+<p class="arch-home-more">
+  <a href="./guide/architecture">查看架构说明 →</a>
+</p>
