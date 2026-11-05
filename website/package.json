@@ -8,7 +8,8 @@
     "docs:preview": "vitepress preview ."
   },
   "devDependencies": {
-    "mermaid": "^12.3.0",
+    "@vue-flow/background": "^1.3.2",
+    "@vue-flow/core": "^1.48.2",
     "vitepress": "^1.6.3"
   }
 }

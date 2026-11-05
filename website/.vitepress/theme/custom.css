@@ -39,40 +39,129 @@
   border-top-color: color-mix(in srgb, var(--vp-c-divider) 80%, transparent);
 }
 
-/* —— Mermaid 架构图 —— */
-.arch-mermaid {
-  margin: 1.1rem 0 2rem;
-  padding: 1.1rem 0.75rem 0.85rem;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 0.55rem;
+/* —— Vue Flow 架构图 —— */
+.arch-x {
+  position: relative;
+  height: 340px;
+  margin: 1.25rem 0 2rem;
+  border-radius: 14px;
+  overflow: hidden;
   background:
-    radial-gradient(900px 320px at 12% -30%, color-mix(in srgb, var(--vp-c-brand-1) 12%, transparent), transparent 60%),
-    var(--vp-c-bg-soft);
-  overflow-x: auto;
+    radial-gradient(600px 260px at 18% 10%, rgba(52, 211, 176, 0.18), transparent 60%),
+    radial-gradient(520px 260px at 85% 90%, rgba(56, 189, 248, 0.16), transparent 60%),
+    linear-gradient(160deg, #07141a 0%, #0b1d25 55%, #0a1620 100%);
+  box-shadow:
+    0 0 0 1px rgba(110, 231, 200, 0.14),
+    0 24px 60px -24px rgba(4, 30, 40, 0.65);
 }
 
-.arch-mermaid__placeholder {
-  padding: 2.5rem 1rem;
-  text-align: center;
-  color: var(--vp-c-text-2);
-  font-size: 0.92rem;
+.arch-x .vue-flow__node {
+  cursor: default;
 }
 
-.arch-mermaid__canvas {
-  min-height: 12rem;
+.arch-x__zone {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  border: 1px dashed rgba(148, 210, 196, 0.32);
+  background: rgba(255, 255, 255, 0.025);
+  padding: 10px 14px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
 }
 
-.arch-mermaid__canvas svg {
-  max-width: 860px;
-  height: auto !important;
+.arch-x__zone-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #9fe8d6;
 }
 
-.arch-mermaid__canvas .edgeLabel {
-  font-size: 12px !important;
+.arch-x__zone-hint {
+  font-size: 11px;
+  color: rgba(200, 225, 232, 0.55);
 }
 
-.arch-mermaid__canvas .cluster-label,
-.arch-mermaid__canvas .nodeLabel {
-  font-family: "Noto Sans SC", "Segoe UI", sans-serif !important;
+.arch-x__card {
+  --tone: #34d3b0;
+  position: relative;
+  width: 210px;
+  padding: 12px 14px 13px;
+  border-radius: 12px;
+  background: linear-gradient(160deg, rgba(20, 40, 48, 0.96), rgba(10, 24, 30, 0.96));
+  border: 1px solid color-mix(in srgb, var(--tone) 45%, transparent);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+    0 10px 28px -12px color-mix(in srgb, var(--tone) 70%, transparent),
+    0 0 22px -8px color-mix(in srgb, var(--tone) 60%, transparent);
+  display: grid;
+  gap: 3px;
+}
+
+.arch-x__card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  border-radius: 12px 12px 0 0;
+  background: linear-gradient(90deg, transparent, var(--tone), transparent);
+}
+
+.arch-x__card.is-teal { --tone: #34d3b0; }
+.arch-x__card.is-blue { --tone: #38bdf8; }
+.arch-x__card.is-violet { --tone: #a78bfa; }
+.arch-x__card.is-amber { --tone: #fbbf24; }
+.arch-x__card.is-slate { --tone: #7dd3c0; }
+
+.arch-x__eyebrow {
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--tone) 80%, white);
+}
+
+.arch-x__title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f1fbf8;
+  line-height: 1.3;
+}
+
+.arch-x__sub {
+  margin-top: 3px;
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.35);
+  color: #bfe9de;
+  font-size: 10.5px;
+  line-height: 1.45;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.arch-x__handle.vue-flow__handle {
+  width: 6px;
+  height: 6px;
+  min-width: 0;
+  min-height: 0;
+  border: none;
+  background: var(--tone);
+  opacity: 0.85;
+}
+
+.arch-x .vue-flow__edge-path {
+  filter: drop-shadow(0 0 4px rgba(52, 211, 176, 0.55));
+}
+
+.arch-x .vue-flow__edge.animated path {
+  stroke-dasharray: 6 5;
+  animation-duration: 0.9s;
+}
+
+@media (max-width: 640px) {
+  .arch-x {
+    height: 300px;
+  }
 }
 

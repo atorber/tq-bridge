@@ -1,123 +1,160 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref, watch } from 'vue'
-import { useData } from 'vitepress'
-import mermaid from 'mermaid'
+import { VueFlow, Handle, Position, MarkerType } from '@vue-flow/core'
+import type { Node, Edge } from '@vue-flow/core'
+import { Background } from '@vue-flow/background'
+import '@vue-flow/core/dist/style.css'
 
-const { isDark } = useData()
-const host = ref<HTMLElement | null>(null)
-const ready = ref(false)
-const renderId = `arch-flow-${Math.random().toString(36).slice(2, 9)}`
+type HandleSpec = { type: 'source' | 'target'; position: Position; id?: string }
 
-const diagram = `
-flowchart TB
-  subgraph ClientZone["业务脚本 · 任意平台"]
-    direction TB
-    Client["<b>客户端</b><br/><span style='font-family:ui-monospace,monospace;font-size:12px'>from tqcenter_remote import tq</span>"]
-  end
-
-  subgraph BridgeZone["Windows"]
-    direction TB
-    Bridge["<b>tq_bridge</b><br/>FastAPI 网关"]
-  end
-
-  subgraph LocalZone["本机通达信链路"]
-    direction LR
-    SDK["本机 SDK<br/><b>tqcenter.tq</b>"]
-    DLL["原生库<br/><b>TPythClient.dll</b>"]
-    TDX["终端<br/><b>通达信客户端</b>"]
-    SDK --> DLL --> TDX
-  end
-
-  Client -->|"HTTP /rpc  +  WebSocket /ws/sub"| Bridge
-  Bridge --> SDK
-`.trim()
-
-function themeVars(dark: boolean) {
-  if (dark) {
-    return {
-      primaryColor: '#1a3d36',
-      primaryTextColor: '#e8f4f0',
-      primaryBorderColor: '#4db6a0',
-      secondaryColor: '#1a2a38',
-      secondaryTextColor: '#d7e8ef',
-      secondaryBorderColor: '#6aa7d8',
-      tertiaryColor: '#2a2418',
-      tertiaryTextColor: '#f0e6d4',
-      tertiaryBorderColor: '#c4a35a',
-      lineColor: '#4db6a0',
-      textColor: '#e8eef2',
-      mainBkg: '#1a3d36',
-      nodeBorder: '#4db6a0',
-      clusterBkg: '#141c22',
-      clusterBorder: '#3a5560',
-      titleColor: '#9fd5c6',
-      edgeLabelBackground: '#152028',
-      fontFamily: 'Noto Sans SC, Segoe UI, sans-serif',
-    }
-  }
-  return {
-    primaryColor: '#e7f3ef',
-    primaryTextColor: '#132029',
-    primaryBorderColor: '#0f5c4c',
-    secondaryColor: '#e8eef5',
-    secondaryTextColor: '#132029',
-    secondaryBorderColor: '#1a4f7a',
-    tertiaryColor: '#f5efe4',
-    tertiaryTextColor: '#132029',
-    tertiaryBorderColor: '#8a6a2f',
-    lineColor: '#0f5c4c',
-    textColor: '#132029',
-    mainBkg: '#e7f3ef',
-    nodeBorder: '#0f5c4c',
-    clusterBkg: '#f4f8fa',
-    clusterBorder: '#9aaebb',
-    titleColor: '#0f5c4c',
-    edgeLabelBackground: '#ffffff',
-    fontFamily: 'Noto Sans SC, Segoe UI, sans-serif',
-  }
-}
-
-async function renderDiagram() {
-  if (!host.value) return
-  mermaid.initialize({
-    startOnLoad: false,
-    securityLevel: 'loose',
-    theme: 'base',
-    themeVariables: themeVars(isDark.value),
-    flowchart: {
-      curve: 'basis',
-      padding: 18,
-      nodeSpacing: 36,
-      rankSpacing: 48,
-      htmlLabels: true,
-      useMaxWidth: true,
-    },
-  })
-  const { svg } = await mermaid.render(renderId, diagram)
-  host.value.innerHTML = svg
-  const svgEl = host.value.querySelector('svg')
-  if (svgEl) {
-    svgEl.removeAttribute('height')
-    svgEl.style.width = '100%'
-    svgEl.style.maxWidth = '860px'
-    svgEl.style.margin = '0 auto'
-    svgEl.style.display = 'block'
-  }
-  ready.value = true
-}
-
-onMounted(() => {
-  void nextTick(renderDiagram)
+const card = (
+  id: string,
+  parent: string,
+  x: number,
+  y: number,
+  data: { eyebrow: string; title: string; sub?: string; tone: string; handles: HandleSpec[] },
+): Node => ({
+  id,
+  type: 'card',
+  parentNode: parent,
+  extent: 'parent',
+  position: { x, y },
+  data,
 })
 
-watch(isDark, () => {
-  void nextTick(renderDiagram)
+const nodes: Node[] = [
+  {
+    id: 'zone-dev',
+    type: 'zone',
+    position: { x: 0, y: 0 },
+    data: { label: '开发机', hint: 'macOS · Linux · Windows' },
+    style: { width: '258px', height: '330px' },
+    zIndex: -1,
+  },
+  {
+    id: 'zone-win',
+    type: 'zone',
+    position: { x: 330, y: 0 },
+    data: { label: 'Windows 主机', hint: '通达信已登录' },
+    style: { width: '718px', height: '330px' },
+    zIndex: -1,
+  },
+  card('agent', 'zone-dev', 24, 52, {
+    eyebrow: 'AI Agent',
+    title: 'Agent Skill',
+    sub: 'scripts/call.py',
+    tone: 'violet',
+    handles: [{ type: 'source', position: Position.Bottom }],
+  }),
+  card('client', 'zone-dev', 24, 205, {
+    eyebrow: '业务脚本',
+    title: 'tqcenter_remote',
+    sub: 'from tqcenter_remote import tq',
+    tone: 'teal',
+    handles: [
+      { type: 'target', position: Position.Top },
+      { type: 'source', position: Position.Right },
+    ],
+  }),
+  card('bridge', 'zone-win', 24, 52, {
+    eyebrow: '网关',
+    title: 'tq_bridge',
+    sub: 'FastAPI · :18787',
+    tone: 'blue',
+    handles: [
+      { type: 'target', position: Position.Left },
+      { type: 'source', position: Position.Bottom },
+    ],
+  }),
+  card('sdk', 'zone-win', 24, 205, {
+    eyebrow: '本机 SDK',
+    title: 'tqcenter.tq',
+    tone: 'slate',
+    handles: [
+      { type: 'target', position: Position.Top },
+      { type: 'source', position: Position.Right },
+    ],
+  }),
+  card('dll', 'zone-win', 254, 205, {
+    eyebrow: '原生库',
+    title: 'TPythClient.dll',
+    tone: 'slate',
+    handles: [
+      { type: 'target', position: Position.Left },
+      { type: 'source', position: Position.Right },
+    ],
+  }),
+  card('tdx', 'zone-win', 484, 205, {
+    eyebrow: '终端',
+    title: '通达信客户端',
+    tone: 'amber',
+    handles: [{ type: 'target', position: Position.Left }],
+  }),
+]
+
+const flow = (id: string, source: string, target: string, label?: string, color = '#34d3b0'): Edge => ({
+  id,
+  source,
+  target,
+  type: 'smoothstep',
+  animated: true,
+  label,
+  style: { stroke: color, strokeWidth: 2 },
+  markerEnd: { type: MarkerType.ArrowClosed, color, width: 18, height: 18 },
+  labelStyle: { fill: '#e6f6f1', fontSize: '12px', fontWeight: 600 },
+  labelBgStyle: { fill: '#0b1a20', fillOpacity: 0.92 },
+  labelBgPadding: [8, 5] as [number, number],
+  labelBgBorderRadius: 6,
 })
+
+const edges: Edge[] = [
+  flow('e-agent', 'agent', 'client', 'call.py', '#a78bfa'),
+  flow('e-net', 'client', 'bridge', 'HTTP /rpc · WS /ws/sub', '#38bdf8'),
+  flow('e-bridge', 'bridge', 'sdk'),
+  flow('e-sdk', 'sdk', 'dll'),
+  flow('e-dll', 'dll', 'tdx', undefined, '#fbbf24'),
+]
 </script>
 
 <template>
-  <figure class="arch-mermaid" aria-label="tq-bridge 调用链路">
-    <div v-show="!ready" class="arch-mermaid__placeholder">正在渲染架构图…</div>
-    <div ref="host" class="arch-mermaid__canvas" />
+  <figure class="arch-x" aria-label="tq-bridge 架构图">
+    <VueFlow
+      :nodes="nodes"
+      :edges="edges"
+      :fit-view-on-init="true"
+      :fit-view-params="{ padding: 0.08 }"
+      :nodes-draggable="false"
+      :nodes-connectable="false"
+      :elements-selectable="false"
+      :zoom-on-scroll="false"
+      :zoom-on-pinch="false"
+      :zoom-on-double-click="false"
+      :pan-on-drag="false"
+      :prevent-scrolling="false"
+      :min-zoom="0.2"
+    >
+      <Background pattern-color="#1f3a44" :gap="18" :size="1.2" />
+
+      <template #node-zone="{ data }">
+        <div class="arch-x__zone">
+          <span class="arch-x__zone-label">{{ data.label }}</span>
+          <span class="arch-x__zone-hint">{{ data.hint }}</span>
+        </div>
+      </template>
+
+      <template #node-card="{ data }">
+        <div class="arch-x__card" :class="`is-${data.tone}`">
+          <Handle
+            v-for="(h, i) in data.handles"
+            :key="i"
+            :type="h.type"
+            :position="h.position"
+            class="arch-x__handle"
+          />
+          <span class="arch-x__eyebrow">{{ data.eyebrow }}</span>
+          <strong class="arch-x__title">{{ data.title }}</strong>
+          <code v-if="data.sub" class="arch-x__sub">{{ data.sub }}</code>
+        </div>
+      </template>
+    </VueFlow>
   </figure>
 </template>
