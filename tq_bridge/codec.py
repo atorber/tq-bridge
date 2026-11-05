@@ -1,6 +1,7 @@
 """tq_bridge / tqcenter_remote 共用的 JSON 编解码。"""
 from __future__ import annotations
 
+import math
 from typing import Any, Dict, List
 
 try:
@@ -14,8 +15,10 @@ TQ_TYPE = "__tqtype__"
 
 def encode_value(value: Any) -> Any:
     """把 Python/pandas 对象编码为可 JSON 序列化结构。"""
-    if value is None or isinstance(value, (bool, int, float, str)):
+    if value is None or isinstance(value, (bool, int, str)):
         return value
+    if isinstance(value, float):
+        return None if math.isnan(value) or math.isinf(value) else value
 
     if pd is not None and isinstance(value, pd.DataFrame):
         # split 保留 index，便于还原为与官方一致的 DataFrame
@@ -113,13 +116,15 @@ def decode_args(payload: Dict[str, Any]):
 
 
 def _json_safe_scalar(value: Any) -> Any:
-    if value is None or isinstance(value, (bool, int, float, str)):
+    if value is None or isinstance(value, (bool, int, str)):
         return value
+    if isinstance(value, float):
+        return None if math.isnan(value) or math.isinf(value) else value
     # numpy / pandas 标量
     item = getattr(value, "item", None)
     if callable(item):
         try:
-            return item()
+            return encode_value(item())
         except Exception:
             pass
     # Timestamp
