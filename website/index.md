@@ -91,7 +91,8 @@ print(tq.get_market_snapshot(stock_code="688318.SH"))</code></pre>
 
   <div class="home-cta">
     <a class="home-cta__primary" href="./guide/quick-start">快速开始</a>
-    <a class="home-cta__ghost" href="./api/python-sdk">API 参考</a>
+    <a class="home-cta__ghost" href="./api/python-sdk">Python SDK</a>
+    <a class="home-cta__ghost" href="./api/gateway-http">网关协议</a>
     <a class="home-cta__ghost" href="https://github.com/atorber/tq-bridge" target="_blank" rel="noreferrer">GitHub</a>
   </div>
 </section>

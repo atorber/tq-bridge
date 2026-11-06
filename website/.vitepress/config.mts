@@ -1,6 +1,8 @@
 import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
-export default defineConfig({
+export default withMermaid(
+  defineConfig({
   title: 'tq-bridge',
   description: '通达信 tqcenter 跨平台远程调用：Windows 网关 + 远程 SDK',
   lang: 'zh-CN',
@@ -41,7 +43,15 @@ export default defineConfig({
     nav: [
       { text: '首页', link: '/' },
       { text: '文档', link: '/guide/introduction', activeMatch: '/guide/' },
-      { text: 'API', link: '/api/python-sdk', activeMatch: '/api/' },
+      {
+        text: 'API',
+        activeMatch: '/api/',
+        items: [
+          { text: '网关协议（语言无关）', link: '/api/gateway-http' },
+          { text: 'Python SDK', link: '/api/python-sdk' },
+          { text: '配置项', link: '/api/config' },
+        ],
+      },
       {
         text: 'GitHub',
         link: 'https://github.com/atorber/tq-bridge',
@@ -72,8 +82,8 @@ export default defineConfig({
         {
           text: 'API 参考',
           items: [
+            { text: '网关协议（语言无关）', link: '/api/gateway-http' },
             { text: 'Python SDK', link: '/api/python-sdk' },
-            { text: '网关 HTTP / WS', link: '/api/gateway-http' },
             { text: '配置项', link: '/api/config' },
           ],
         },
@@ -114,4 +124,5 @@ export default defineConfig({
       copyright: 'Copyright © 2026 atorber',
     },
   },
-})
+}),
+)

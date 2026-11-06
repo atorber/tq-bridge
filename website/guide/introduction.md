@@ -10,8 +10,8 @@
 
 | 组件 | 作用 |
 |------|------|
-| `tq_bridge` | 跑在 Windows：包装真实 `tqcenter`，对外 HTTP / WebSocket |
-| `tqcenter_remote` | 跑在任意平台：API 与官方 `tqcenter` 对齐 |
+| `tq_bridge` | 跑在 Windows：包装真实 `tqcenter`，对外 **语言无关** HTTP / WebSocket |
+| `tqcenter_remote` | Python 参考客户端；任意语言可按 [网关协议](/api/gateway-http) 自研 |
 
 业务侧通常只改 import：
 
@@ -35,5 +35,7 @@ pip install tq-bridge
 
 - [架构](./architecture) — 看清调用链路
 - [快速开始](./quick-start) — 最短路径跑通
+- [Python SDK](/api/python-sdk) — `tqcenter_remote` 方法与用法
+- [网关协议](/api/gateway-http) — 语言无关 HTTP/WS，便于自研任意语言客户端
 - [Agent Skill](./skill) — 一句话安装到全部 Agent，自然语言取数
 - [Windows 网关](./gateway) / [远程客户端](./client) — 分端配置
