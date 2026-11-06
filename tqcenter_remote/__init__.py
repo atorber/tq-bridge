@@ -10,4 +10,4 @@ from .client import tq
 from .tqconst import tqconst
 
 __all__ = ["tq", "tqconst"]
-__version__ = "1.0.0"
+__version__ = "0.1.0"

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tq-bridge"
-version = "1.0.0"
+version = "0.1.0"
 description = "通达信 tqcenter 跨平台远程调用：Windows 网关 + 远程 SDK"
 readme = "README.md"
 requires-python = ">=3.9"
