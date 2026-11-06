@@ -21,25 +21,61 @@
   --vp-home-hero-name-background: linear-gradient(120deg, #e8f4f0 10%, #4db6a0 90%);
 }
 
-.VPHero .name {
-  font-family: "Source Serif 4", "Noto Serif SC", serif;
-  letter-spacing: -0.03em;
-  font-size: clamp(2.6rem, 7vw, 4.4rem) !important;
+.VPHero .main {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-.VPHero .text {
+/* name + text 同在 h1.heading 内；拉开间距避免 serif 降部视觉叠字 */
+.VPHero h1.heading {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 1.75rem !important;
+  row-gap: 1.75rem !important;
+  line-height: normal !important;
+}
+
+.VPHero .name,
+.VPHero span.name.clip {
+  display: block !important;
   font-family: "Source Serif 4", "Noto Serif SC", serif;
+  letter-spacing: -0.03em;
+  font-size: clamp(2.35rem, 5.5vw, 3.5rem) !important;
+  line-height: 1.05 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  /* 给 q/g 降部预留绘制空间，但不侵占下一行 */
+  padding-bottom: 0.18em !important;
+  overflow: visible !important;
+  background-size: 100% 100%;
+}
+
+.VPHero .text,
+.VPHero span.text {
+  display: block !important;
+  font-family: "Noto Sans SC", "Segoe UI", sans-serif;
   font-weight: 600;
-  max-width: 18em;
+  font-size: clamp(1.15rem, 2.3vw, 1.55rem) !important;
+  line-height: 1.55 !important;
+  margin: 0 !important;
+  padding-top: 0.15rem !important;
+  max-width: 26em;
+  color: var(--vp-c-text-1);
 }
 
 .VPHero .tagline {
+  display: block;
   max-width: 34em;
+  margin: 1.1rem 0 0 !important;
+  line-height: 1.65 !important;
   opacity: 0.88;
 }
 
 .VPHero .actions {
-  padding-top: 0.35rem;
+  padding-top: 1rem;
 }
 
 /* 首页：去掉默认 features 后的内容区节奏 */
