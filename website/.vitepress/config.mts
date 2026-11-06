@@ -47,7 +47,7 @@ export default withMermaid(
         text: 'API',
         activeMatch: '/api/',
         items: [
-          { text: '网关协议（语言无关）', link: '/api/gateway-http' },
+          { text: '网关数据协议', link: '/api/gateway-http' },
           { text: 'Python SDK', link: '/api/python-sdk' },
           { text: '配置项', link: '/api/config' },
         ],
@@ -82,7 +82,7 @@ export default withMermaid(
         {
           text: 'API 参考',
           items: [
-            { text: '网关协议（语言无关）', link: '/api/gateway-http' },
+            { text: '网关数据协议', link: '/api/gateway-http' },
             { text: 'Python SDK', link: '/api/python-sdk' },
             { text: '配置项', link: '/api/config' },
           ],

@@ -1,7 +1,7 @@
 # Python SDK
 
 `tqcenter_remote.tq` 是协议的 **Python 参考实现**，签名与官方 `tqcenter.tq` 对齐。  
-其它语言请按 [网关协议（语言无关）](./gateway-http) 自行实现客户端；完整冒烟见仓库 `tdxdata_test_remote.py`。
+其它语言请按 [网关协议](./gateway-http) 自行实现客户端；完整冒烟见仓库 `tdxdata_test_remote.py`。
 
 ```python
 from tqcenter_remote import tq, tqconst

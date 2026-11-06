@@ -42,7 +42,7 @@ Windows: tq_bridge (FastAPI)
 
 | 组件 | 说明 |
 |------|------|
-| `tq_bridge/` | Windows 网关：包装真实 `tqcenter`，对外提供 HTTP / WebSocket（语言无关） |
+| `tq_bridge/` | Windows 网关：包装真实 `tqcenter`，对外提供 HTTP / WebSocket |
 | `tqcenter_remote/` | [Python SDK](https://atorber.github.io/tq-bridge/api/python-sdk)；其它语言可按[网关协议](https://atorber.github.io/tq-bridge/api/gateway-http)自研 |
 | `tqcenter.py` | 官方本机 SDK（仅 Windows + 通达信客户端） |
 | `tqserver.py` | 云端 TdxAiData 封装（与本方案独立） |
