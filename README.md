@@ -5,6 +5,7 @@
 通达信 `tqcenter` 跨平台远程调用方案：在一台已登录通达信的 Windows 机器上运行网关，其它电脑（Windows / macOS / Linux）用几乎相同的 Python API 取数。
 
 官网：https://atorber.github.io/tq-bridge/  
+通达信背景与官方资料：[用户红宝书](https://help.tdx.com.cn/book.html) · [TdxQuant 接口文档（本站在线）](https://atorber.github.io/tq-bridge/guide/tdxquant-doc) · [通达信背景知识](https://atorber.github.io/tq-bridge/guide/tdx-background)
 
 ```bash
 pip install tq-bridge

@@ -479,3 +479,43 @@
   }
 }
 
+/* Official TdxQuant PDF embed */
+.pdf-embed {
+  margin: 1rem 0 2rem;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--vp-c-bg-soft);
+}
+
+.pdf-embed__bar {
+  margin: 0;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.875rem;
+  border-bottom: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg);
+}
+
+.pdf-embed__link {
+  font-weight: 500;
+}
+
+.pdf-embed__sep {
+  margin: 0 0.35rem;
+  color: var(--vp-c-text-3);
+}
+
+.pdf-embed__frame {
+  display: block;
+  width: 100%;
+  height: min(78vh, 920px);
+  border: 0;
+  background: #525659;
+}
+
+@media (max-width: 640px) {
+  .pdf-embed__frame {
+    height: 70vh;
+  }
+}
+

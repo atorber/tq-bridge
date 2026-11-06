@@ -49,6 +49,7 @@ export default withMermaid(
         items: [
           { text: '网关数据协议', link: '/api/gateway-http' },
           { text: 'Python SDK', link: '/api/python-sdk' },
+          { text: 'TdxQuant 接口文档', link: '/guide/tdxquant-doc' },
           { text: '配置项', link: '/api/config' },
         ],
       },
@@ -63,6 +64,8 @@ export default withMermaid(
           text: '开始',
           items: [
             { text: '介绍', link: '/guide/introduction' },
+            { text: '通达信背景知识', link: '/guide/tdx-background' },
+            { text: 'TdxQuant 接口文档', link: '/guide/tdxquant-doc' },
             { text: '架构', link: '/guide/architecture' },
             { text: '快速开始', link: '/guide/quick-start' },
             { text: 'Agent Skill', link: '/guide/skill' },

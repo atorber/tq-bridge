@@ -6,7 +6,7 @@
 |----|------|
 | 默认基址 | `http://<windows-ip>:18787`（HTTPS 时用 `https` / `wss`） |
 | 参考实现 | 仓库 `tqcenter_remote/`（Python） |
-| 业务签名 | 与官方 `tqcenter.tq` 对齐，方法名/参数见 [Python SDK](./python-sdk) |
+| 业务签名 | 与官方 `tqcenter.tq` 对齐；权威定义见 [TdxQuant 接口文档](/guide/tdxquant-doc)，速查见 [Python SDK](./python-sdk)；背景见 [通达信背景知识](/guide/tdx-background) |
 
 `initialize` / `close`（通达信本机侧）由网关进程管理，**客户端禁止**经 `/rpc` 调用。
 

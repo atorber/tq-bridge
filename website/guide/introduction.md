@@ -33,6 +33,8 @@ pip install tq-bridge
 
 ## 下一步
 
+- [通达信背景知识](./tdx-background) — 终端 / TdxQuant / 官方红宝书
+- [TdxQuant 接口文档](./tdxquant-doc) — 官方接口说明 PDF 在线阅读
 - [架构](./architecture) — 看清调用链路
 - [快速开始](./quick-start) — 最短路径跑通
 - [Python SDK](/api/python-sdk) — `tqcenter_remote` 方法与用法

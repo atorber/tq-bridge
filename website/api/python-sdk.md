@@ -3,6 +3,8 @@
 `tqcenter_remote.tq` 是协议的 **Python 参考实现**，签名与官方 `tqcenter.tq` 对齐。  
 其它语言请按 [网关协议](./gateway-http) 自行实现客户端；完整冒烟见仓库 `tdxdata_test_remote.py`。
 
+官方权威说明见本站 [TdxQuant 接口文档](/guide/tdxquant-doc)（内嵌 PDF）与 [通达信背景知识](/guide/tdx-background)。
+
 ```python
 from tqcenter_remote import tq, tqconst
 ```

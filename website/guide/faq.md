@@ -1,5 +1,7 @@
 # 常见问题
 
+不熟悉通达信 / TdxQuant 时，先看 [通达信背景知识](./tdx-background)、本站 [TdxQuant 接口文档](./tdxquant-doc) 与官方 [用户红宝书](https://help.tdx.com.cn/book.html)。
+
 ## 网关未就绪 / `health.ok=false`
 
 通达信未登录、DLL 加载失败、或 `TQ_BRIDGE_INIT_PATH` 无效。先在网关机器验证：
