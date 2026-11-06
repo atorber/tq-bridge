@@ -26,10 +26,6 @@ hero:
   <ClientOnly>
     <ArchFlow />
   </ClientOnly>
-
-  <p class="home-block__more">
-    <a href="./guide/architecture">架构说明</a>
-  </p>
 </section>
 
 <section class="home-block home-start">
